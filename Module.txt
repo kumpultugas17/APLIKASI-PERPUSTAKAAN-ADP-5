@@ -1,0 +1,15 @@
+Sub AmbilDataBuku()
+    Dim DATA_BUKU As Long
+    Dim iRow As Long
+    iRow = Sheet2.Range("A" & Rows.Count).End(xlUp).Row
+    DATA_BUKU = Application.WorksheetFunction.CountA(Sheet2.Range("A4:A100000"))
+    If DATA_BUKU = 0 Then
+        Form_DataBuku.tabelData.RowSource = ""
+    Else
+        Form_DataBuku.tabelData.RowSource = "BUKU!A4:H" & iRow
+    End If
+End Sub
+
+Sub AmbilDataAnggota()
+
+End Sub

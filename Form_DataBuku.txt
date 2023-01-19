@@ -1,3 +1,35 @@
+Private Sub cmdTambahData_Click()
+Form_Buku.Show
+End Sub
+
+Private Sub tabelData_Click()
+
+End Sub
+
+Private Sub tabelData_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+Application.ScreenUpdating = True
+
+Dim SUMBERUBAH, CELLAKTIF As String
+Form_Buku.txtnomor.Value = Me.tabelData.Column(0)
+Form_Buku.txtkode.Value = Me.tabelData.Column(1)
+Form_Buku.txtjudul.Value = Me.tabelData.Column(2)
+Form_Buku.txtpenulis.Value = Me.tabelData.Column(3)
+Form_Buku.txtpenerbit.Value = Me.tabelData.Column(4)
+Form_Buku.txtthnterbit.Value = Me.tabelData.Column(5)
+Form_Buku.cbokategori.Value = Me.tabelData.Column(6)
+Form_Buku.txtstok.Value = Me.tabelData.Column(7)
+Form_Buku.cmdsimpan.Caption = "Hapus"
+
+Sheet2.Select
+SUMBERUBAH = Sheets("BUKU").Cells(Rows.Count, "A").End(xlUp).Row
+Sheets("BUKU").Range("A4:A" & SUMBERUBAH).Find(What:=Form_Buku.txtnomor.Value, LookIn:=xlValues, _
+lookAt:=xlWhole).Activate
+CELLAKTIF = ActiveCell.Row
+Sheet2.Select
+
+Form_Buku.Show
+End Sub
+
 Private Sub UserForm_Initialize()
 Dim DATA_BUKU As Long
 Dim iRow As Long

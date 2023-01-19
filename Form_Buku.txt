@@ -1,26 +1,31 @@
 Private Sub cmdsimpan_Click()
-Dim BUKU As Object
-Set BUKU = Sheet2.Range("A10000").End(xlUp)
-'Validasi Data
-If Me.txtkode.Value = "" Or Me.txtjudul.Value = "" Or _
-    Me.txtpenulis.Value = "" Or Me.txtpenerbit.Value = "" Or _
-    Me.txtthnterbit.Value = "" Or Me.cbokategori.Value = "" Or Me.txtstok.Value = "" Then
-    'Pesan jika textbox masih ada yang kosong
-    Call MsgBox("Silahkan isi data dengan lengkap!", vbCritical, "INPUT DATA")
+If cmdsimpan.Caption = "Simpan" Then
+    Dim BUKU As Object
+    Set BUKU = Sheet2.Range("A10000").End(xlUp)
+    'Validasi Data
+    If Me.txtkode.Value = "" Or Me.txtjudul.Value = "" Or _
+        Me.txtpenulis.Value = "" Or Me.txtpenerbit.Value = "" Or _
+        Me.txtthnterbit.Value = "" Or Me.cbokategori.Value = "" Or Me.txtstok.Value = "" Then
+        'Pesan jika textbox masih ada yang kosong
+        Call MsgBox("Silahkan isi data dengan lengkap!", vbCritical, "INPUT DATA")
+    Else
+        'Proses simpan data
+        BUKU.Offset(1, 0).Value = "=ROW()-ROW($A$3)"
+        BUKU.Offset(1, 1).Value = Me.txtkode.Value
+        BUKU.Offset(1, 2).Value = Me.txtjudul.Value
+        BUKU.Offset(1, 3).Value = Me.txtpenulis.Value
+        BUKU.Offset(1, 4).Value = Me.txtpenerbit.Value
+        BUKU.Offset(1, 5).Value = Me.txtthnterbit.Value
+        BUKU.Offset(1, 6).Value = Me.cbokategori.Value
+        BUKU.Offset(1, 7).Value = Me.txtstok.Value
+        'Pesan jika berhasil tersimpan
+        Call MsgBox("Data berhasil disimpan!", vbInformation, "INPUT DATA")
+        'Mengkosongkan text
+        Call RESET
+        Call AmbilDataBuku
+    End If
 Else
-    'Proses simpan data
-    BUKU.Offset(1, 0).Value = "=ROW()-ROW($A$3)"
-    BUKU.Offset(1, 1).Value = Me.txtkode.Value
-    BUKU.Offset(1, 2).Value = Me.txtjudul.Value
-    BUKU.Offset(1, 3).Value = Me.txtpenulis.Value
-    BUKU.Offset(1, 4).Value = Me.txtpenerbit.Value
-    BUKU.Offset(1, 5).Value = Me.txtthnterbit.Value
-    BUKU.Offset(1, 6).Value = Me.cbokategori.Value
-    BUKU.Offset(1, 7).Value = Me.txtstok.Value
-    'Pesan jika berhasil tersimpan
-    Call MsgBox("Data berhasil disimpan!", vbInformation, "INPUT DATA")
-    'Mengkosongkan text
-    Call RESET
+    MsgBox "Tempat Koding Hapus"
 End If
 End Sub
 
@@ -41,6 +46,10 @@ End Sub
 
 Private Sub cmdbatal_Click()
 Call RESET
+'merubah caption menjadi "Simpan"
+Me.cmdsimpan.Caption = "Simpan"
+'tutup form
+Unload Me
 End Sub
 
 Private Sub UserForm_Initialize()
