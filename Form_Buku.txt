@@ -1,5 +1,24 @@
+Private Sub cmdedit_Click()
+Dim EDITBUKU As Object
+Set EDITBUKU = Sheet2.Range("A4:A100000").Find(What:=Me.txtnomor, LookIn:=xlValues)
+If Me.txtnomor.Value = "" Then
+    MsgBox "Pilih data yang akan diedit !", vbCritical, "EDIT DATA BUKU"
+Else
+    EDITBUKU.Offset(0, 2).Value = Me.txtjudul.Value
+    EDITBUKU.Offset(0, 3).Value = Me.txtpenulis.Value
+    EDITBUKU.Offset(0, 4).Value = Me.txtpenerbit.Value
+    EDITBUKU.Offset(0, 5).Value = Me.txtthnterbit.Value
+    EDITBUKU.Offset(0, 6).Value = Me.cbokategori.Value
+    EDITBUKU.Offset(0, 7).Value = Me.txtstok.Value
+    Call RESET
+    MsgBox "Data berhasi diupdate!", vbInformation, "EDIT DATA BUKU"
+    Unload Me
+End If
+End Sub
+
 Private Sub cmdsimpan_Click()
 If cmdsimpan.Caption = "Simpan" Then
+    'Bagian Coding Simpan
     Dim BUKU As Object
     Set BUKU = Sheet2.Range("A10000").End(xlUp)
     'Validasi Data
@@ -19,13 +38,30 @@ If cmdsimpan.Caption = "Simpan" Then
         BUKU.Offset(1, 6).Value = Me.cbokategori.Value
         BUKU.Offset(1, 7).Value = Me.txtstok.Value
         'Pesan jika berhasil tersimpan
-        Call MsgBox("Data berhasil disimpan!", vbInformation, "INPUT DATA")
+        Call MsgBox("Data berhasil disimpan!", vbInformation, "INPUT DATA BUKU")
         'Mengkosongkan text
         Call RESET
         Call AmbilDataBuku
     End If
+    'Batas Bagian Koding Simpan
 Else
-    MsgBox "Tempat Koding Hapus"
+    'Bagian Koding Hapus
+    Dim HAPUS As Object
+    Set HAPUS = Sheet2.Range("A4:A100000").Find(What:=Me.txtnomor, LookIn:=xlValues)
+    'Membuat pesan konfirmasi hapus
+    Select Case MsgBox("Apakah data akan dihapus ?", vbQuestion + vbYesNo, "HAPUS DATA BUKU")
+        Case vbNo
+            Exit Sub
+        Case vbYes
+    End Select
+    
+    Sheet2.Select
+    Selection.EntireRow.Delete
+    Call AmbilDataBuku
+    Call RESET
+    MsgBox "Data berhasil dihapus !", vbInformation, "HAPUS DATA BUKU"
+    Unload Me
+    'Batas Bagian Koding Hapus
 End If
 End Sub
 
